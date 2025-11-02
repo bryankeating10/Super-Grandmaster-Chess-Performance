@@ -10,77 +10,50 @@ This project leverages Python, Pandas, and custom-built classes (MetaData, MoveD
 
 ### `Data/`
 Stores all raw and intermediate data files.
-
 Example contents:
-
 * PGN game files (raw data)
-* CSV exports of metadata and move data
+* CSV exports of game metadata and move data
 
 ### `Analysis/`
 Contains Jupyter notebooks and scripts used to process and analyze data.
-
 Example contents:
 * analyze_player.ipynb — analyzes a specific player’s performance
 * opening_statistics.ipynb — summarizes outcomes by opening
 
-### Tests/
-
+### `Tests/`
 Houses test scripts to ensure data extraction and analytics run correctly.
-
 Example contents:
+* test_metadata_extraction.py
+* test_move_parsing.py
 
-test_metadata_extraction.py
-
-test_move_parsing.py
-
-Visuals/
-
+### `Visuals/`
 Stores all generated plots, charts, and other visual artifacts from the analysis notebooks.
-
 Example contents:
+* elo_trend.png — ELO trend over time for a player
+* move_time_distribution.png — histogram of time spent per move
 
-elo_trend.png
-
-move_time_distribution.png
-
-Reports/
-
+### `Reports/`
 Contains final HTML reports or dashboards summarizing analytical findings and visuals.
-
 Example contents:
+* player_summary.html — per-player summary dashboards
+* opening_report.html — aggregated opening analysis report
 
-player_summary.html
-
-opening_report.html
-
-Core/
-
+### `Core/`
 Defines the core data models and logic.
-
 Example contents:
+* metadata.py — handles game-level metadata
+* movedata.py — manages move parsing and timing
+* player_analytics.py — high-level analysis across games
 
-metadata.py — handles game-level metadata
-
-movedata.py — manages move parsing and timing
-
-player_analytics.py — high-level analysis across games
-
-Utils/
-
+### `Utils/`
 Contains reusable helper functions and shared utilities.
-
 Example contents:
+* file_io.py — file loading/saving utilities
+* data_cleaning.py — functions for normalizing and validating data
+* visual_helpers.py — setup and export of visualizations
 
-file_io.py — file loading/saving utilities
+## Future Goals
 
-data_cleaning.py — functions for normalizing and validating data
-
-visual_helpers.py — setup and export of visualizations
-
-Future Goals
-
-Expand the analytics to include opponent-based performance metrics.
-
-Develop an interactive dashboard for browsing player statistics.
-
-Incorporate machine learning to predict outcomes or detect playstyle trends.
+* Expand the analytics to include opponent-based performance metrics.
+* Develop an interactive dashboard for browsing player statistics.
+* Incorporate machine learning to predict outcomes or detect playstyle trends.
