@@ -16,14 +16,14 @@ Example contents:
 * PGN game files (raw data)
 * CSV exports of metadata and move data
 
-`Analysis/`
+### `Analysis/`
 Contains Jupyter notebooks and scripts used to process and analyze data.
 
 Example contents:
 * analyze_player.ipynb — analyzes a specific player’s performance
 * opening_statistics.ipynb — summarizes outcomes by opening
 
-Tests/
+### Tests/
 
 Houses test scripts to ensure data extraction and analytics run correctly.
 
