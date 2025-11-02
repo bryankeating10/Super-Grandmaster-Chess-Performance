@@ -54,7 +54,12 @@ Example contents:
 * `visual_helpers.py` — setup and export of visualizations
 
 ## Future Goals
-
 * Expand the analytics to include opponent-based performance metrics.
 * Develop an interactive dashboard for browsing player statistics.
 * Incorporate machine learning to predict outcomes or detect playstyle trends.
+
+## Resources
+* `Hikaru.pgn`
+    * Platform: Kaggle
+    * Creator: Michal Wierzbicki
+    * Dataset: Hikaru Nakamura Chess.com Online Chess games
