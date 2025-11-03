@@ -21,19 +21,19 @@ class MoveData:
                 except Exception:
                     continue
                 if game is None:
-                    break
+                    break # End of file
 
-                moves = self._parse_game_moves(game)
+                moves = self._parse_game_moves(game) # Returns dataframe of moves for single game
                 if not moves.empty:
-                    moves_dict[game_id] = moves
-                    game_id += 1
-        return moves_dict
+                    moves_dict[game_id] = moves # Store move dataframe with game ID key
+                    game_id += 1 # Next game
+        return moves_dict # Returns dictionary with game ID keys and their corresponding move dataframe values
 
     def _parse_game_moves(self, game):
         """Extract moves in wide format with white and black columns."""
-        moves = []
+        moves = [] # To store move records
         node = game
-        move_number = 1
+        move_number = 1 # Begins with first move
         white_move = np.nan
         white_time = np.nan
         white_eval = np.nan
