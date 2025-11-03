@@ -14,9 +14,12 @@ class MetaDataCleaner:
 
         return df
     
+    @staticmethod
     def replace_with_nan(df: pd.DataFrame) -> pd.DataFrame:
-        '''Replace placeholders with NaN'''
-        return df.replace(["","?","-"],np.nan)
+        """Replace placeholders with NaN, safely handling dtype conversion."""
+        cleaned = df.replace(["", "?", "-"], np.nan)
+        return cleaned.infer_objects(copy=False)
+
 
 class MoveDataCleaner:
     '''Utility class for cleaning movedata lists'''
