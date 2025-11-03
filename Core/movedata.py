@@ -1,12 +1,97 @@
+import chess.pgn as ch
+import pandas as pd
+import re
+
+
 class MoveData:
-    def __init__(self, game, game_id):
-        self.game_id = game_id
-        self.game = game
-        self.moves_df = self._parse_moves()
+    def __init__(self, pgn_path):
+        self.pgn_path = pgn_path
+        self.moves_dict = self._extract_moves()
 
-    def _parse_moves(self):
-        # parse game moves into DataFrame
-        pass
+    def _extract_moves(self):
+        """Read PGN file and extract move data for each game safely."""
+        moves_dict = {}
+        with open(self.pgn_path, encoding="utf-8") as pgn:
+            game_id = 1
+            while True:
+                try:
+                    game = ch.read_game(pgn)
+                except Exception:
+                    continue
+                if game is None:
+                    break
 
-    def move_count(self):
-        return len(self.moves_df)
+                moves = self._parse_game_moves(game)
+                if not moves.empty:
+                    moves_dict[game_id] = moves
+                    game_id += 1
+        return moves_dict
+
+    def _parse_game_moves(self, game):
+        """Extract move number, color, SAN, time, and eval safely from a single game."""
+        data = []
+        node = game
+        move_number = 1
+
+        while node.variations:
+            next_node = node.variation(0)
+            move_san = next_node.san()
+            comment = next_node.comment or ""
+
+            time = self._extract_clock_time(comment)
+            evaluation = self._extract_evaluation(comment)
+            color = "white" if node.board().turn else "black"
+
+            data.append({
+                "move_number": move_number,
+                "color": color,
+                "move": move_san,
+                "time": time,
+                "evaluation": evaluation,
+            })
+
+            node = next_node
+            move_number += 1
+
+        return pd.DataFrame(data)
+
+    def _extract_clock_time(self, comment):
+        """
+        Extract clock time from a comment string like:
+        { [%eval 0.17] [%clk 0:00:30] } or {[%clk 0:03:00]}
+        Returns the time as a string or None if not found.
+        """
+        if not comment:
+            return None
+        match = re.search(r"\[%clk\s*([0-9:\.]+)\]", comment)
+        return match.group(1) if match else None
+
+    def _extract_evaluation(self, comment):
+        """
+        Extract engine evaluation value from comments like:
+        { [%eval 0.17] } or { [%eval -3.15] } or { [%eval #5] }
+        Returns a float (centipawn), 'M5' for mate, or None.
+        """
+        if not comment:
+            return None
+
+        match = re.search(r"\[%eval\s*([#\-0-9\.]+)\]", comment)
+        if not match:
+            return None
+
+        eval_str = match.group(1)
+        if eval_str.startswith("#"):
+            # Mate score (e.g., #5 means mate in 5)
+            return f"M{eval_str[1:]}"
+        try:
+            return float(eval_str)
+        except ValueError:
+            return None
+
+    def get_game_moves(self, game_id):
+        """Return moves DataFrame for a specific game."""
+        return self.moves_dict.get(game_id)
+
+    def to_dict(self):
+        """Return all move data as dictionary."""
+        return self.moves_dict
