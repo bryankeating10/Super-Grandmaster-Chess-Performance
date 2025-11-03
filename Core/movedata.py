@@ -2,7 +2,6 @@ import chess.pgn as ch
 import pandas as pd
 import re
 
-
 class MoveData:
     def __init__(self, pgn_path):
         self.pgn_path = pgn_path
@@ -28,10 +27,13 @@ class MoveData:
         return moves_dict
 
     def _parse_game_moves(self, game):
-        """Extract move number, color, SAN, time, and eval safely from a single game."""
-        data = []
+        """Extract moves in wide format with white and black columns."""
+        moves = []
         node = game
         move_number = 1
+        white_move = None
+        white_time = None
+        white_eval = None
 
         while node.variations:
             next_node = node.variation(0)
@@ -42,18 +44,46 @@ class MoveData:
             evaluation = self._extract_evaluation(comment)
             color = "white" if node.board().turn else "black"
 
-            data.append({
-                "move_number": move_number,
-                "color": color,
-                "move": move_san,
-                "time": time,
-                "evaluation": evaluation,
-            })
+            if color == "white":
+                # Store white's move data
+                white_move = move_san
+                white_time = time
+                white_eval = evaluation
+            else:
+                # Black's move - create row with both white and black data
+                moves.append({
+                    "move_number": move_number,
+                    "white_move": white_move,
+                    "white_time": white_time,
+                    "white_eval": white_eval,
+                    "black_move": move_san,
+                    "black_time": time,
+                    "black_eval": evaluation,
+                })
+                move_number += 1
+                # Reset white data
+                white_move = None
+                white_time = None
+                white_eval = None
 
             node = next_node
-            move_number += 1
 
-        return pd.DataFrame(data)
+        # Handle case where game ends on white's move (no black response)
+        if white_move is not None:
+            moves.append({
+                "move_number": move_number,
+                "white_move": white_move,
+                "white_time": white_time,
+                "white_eval": white_eval,
+                "black_move": None,
+                "black_time": None,
+                "black_eval": None,
+            })
+
+        df = pd.DataFrame(moves)
+        if not df.empty:
+            df.set_index("move_number", inplace=True)
+        return df
 
     def _extract_clock_time(self, comment):
         """
