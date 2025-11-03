@@ -11,18 +11,11 @@ class MetaDataCleaner:
     @staticmethod
     def clean_metadata(df: pd.DataFrame) -> pd.DataFrame:
         """Perform all metadata cleaning steps."""
-        df = MetaDataCleaner.replace_with_nan(df)
         df = MetaDataCleaner.optimize_dtype(df)
         df = MetaDataCleaner.convert_to_datetime(df)
+        df = MetaDataCleaner.replace_with_nan(df)
         # More cleaning steps can be added here later
         return df
-
-    @staticmethod
-    def replace_with_nan(df: pd.DataFrame) -> pd.DataFrame:
-        """Replace placeholders with NaN and safely re-infer data types."""
-        cleaned = df.replace(["", "?", "-"], np.nan)
-        cleaned = cleaned.infer_objects(copy=False)
-        return cleaned
 
     @staticmethod
     def optimize_dtype(df: pd.DataFrame) -> pd.DataFrame:
@@ -49,6 +42,15 @@ class MetaDataCleaner:
                 df[time_col] = pd.to_datetime(df[time_col], errors="coerce", format="%H:%M:%S").dt.time
 
         return df
+
+    @staticmethod
+    def replace_with_nan(df: pd.DataFrame) -> pd.DataFrame:
+        """Replace placeholders with NaN and safely re-infer data types."""
+        cleaned = df.replace(["", "?", "-"], np.nan)
+        cleaned = cleaned.infer_objects(copy=False)
+        return cleaned
+
+
 
 class MoveDataCleaner:
     '''Utility class for cleaning movedata lists'''
