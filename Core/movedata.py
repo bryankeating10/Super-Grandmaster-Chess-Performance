@@ -5,15 +5,17 @@ import re
 
 class MoveData:
     def __init__(self, pgn_path):
-        self.pgn_path = pgn_path
-        self.moves_dict = self._extract_moves()
+        self.pgn_path = pgn_path # Path to pgn file
+        self.moves_dict = self._extract_moves() # Extracts move data from pgn
 
     def _extract_moves(self):
         """Read PGN file and extract move data for each game safely."""
-        moves_dict = {}
+        moves_dict = {} # To store game:move_dataframe key-value pairs
+
         with open(self.pgn_path, encoding="utf-8") as pgn:
-            game_id = 1
-            while True:
+            game_id = 1 # Index of first game
+
+            while True: # Testing game format validity
                 try:
                     game = ch.read_game(pgn)
                 except Exception:
@@ -32,9 +34,9 @@ class MoveData:
         moves = []
         node = game
         move_number = 1
-        white_move = None
-        white_time = None
-        white_eval = None
+        white_move = np.nan
+        white_time = np.nan
+        white_eval = np.nan
 
         while node.variations:
             next_node = node.variation(0)
@@ -63,9 +65,9 @@ class MoveData:
                 })
                 move_number += 1
                 # Reset white data
-                white_move = None
-                white_time = None
-                white_eval = None
+                white_move = np.nan
+                white_time = np.nan
+                white_eval = np.nan
 
             node = next_node
 
@@ -93,9 +95,9 @@ class MoveData:
         Returns the time as a string or None if not found.
         """
         if not comment:
-            return None
+            return np.nan
         match = re.search(r"\[%clk\s*([0-9:\.]+)\]", comment)
-        return match.group(1) if match else None
+        return match.group(1) if match else np.nan
 
     def _extract_evaluation(self, comment):
         """
@@ -104,11 +106,11 @@ class MoveData:
         Returns a float (centipawn), 'M5' for mate, or None.
         """
         if not comment:
-            return None
+            return np.nan
 
         match = re.search(r"\[%eval\s*([#\-0-9\.]+)\]", comment)
         if not match:
-            return None
+            return np.nan
 
         eval_str = match.group(1)
         if eval_str.startswith("#"):
@@ -117,7 +119,7 @@ class MoveData:
         try:
             return float(eval_str)
         except ValueError:
-            return None
+            return np.nan
 
     def get_game_moves(self, game_id):
         """Return moves DataFrame for a specific game."""
