@@ -20,13 +20,13 @@ PGN is an acronym for Portable Game Notation and stores chess game data in a sta
 and the move data is stored as either a semi-structured list of moves:
 ```
 1.e4 e5 2.Nf3 f5 3.Nxe5 Qf6 4.d4 d6
-5.Nc4 fxe4 6.Nc3 Ne7 7.d5 Qg6 8.h3 h5
+5.Nc4 fxe4 6.Nc3 Ne7 7.d5 Qg6 8.h3 h5  1-0
 ```
 or a semi-structured list of key-value pairs:
 ```
 1. e4 { [%eval 0.17] [%clk 0:00:30] } 1... c5 { [%eval 0.19] [%clk 0:00:30] }
 2. Nf3 { [%eval 0.25] [%clk 0:00:29] } 2... Nc6 { [%eval 0.33] [%clk 0:00:30] }
-3. Bc4 { [%eval -0.13] [%clk 0:00:28] } 3... e6 { [%eval -0.04] [%clk 0:00:30] }
+3. Bc4 { [%eval -0.13] [%clk 0:00:28] } 3... e6 { [%eval -0.04] [%clk 0:00:30] } 0-1
 ```
 
 ## Directory Structure
