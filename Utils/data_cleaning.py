@@ -12,6 +12,7 @@ class MetaDataCleaner:
     def clean_metadata(df: pd.DataFrame) -> pd.DataFrame:
         """Perform all metadata cleaning steps."""
         df = MetaDataCleaner.replace_with_nan(df)
+        df = MetaDataCleaner.optimize_dtypes(df)
         df = MetaDataCleaner.convert_to_datetime(df)
         # More cleaning steps can be added here later
         return df
@@ -22,6 +23,13 @@ class MetaDataCleaner:
         cleaned = df.replace(["", "?", "-"], np.nan)
         cleaned = cleaned.infer_objects(copy=False)
         return cleaned
+
+    @staticmethod
+    def optimize_dtype(df: pd.DataFrame) -> pd.DataFrame:
+        """Automatically convert valid columns to more compact dtypes."""
+        df = df.copy()
+        df = df.convert_dtypes()
+        return df
 
     @staticmethod
     def convert_to_datetime(df: pd.DataFrame) -> pd.DataFrame:
