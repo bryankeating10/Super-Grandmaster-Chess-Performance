@@ -5,8 +5,18 @@ class MetaDataCleaner:
     '''Utility class for cleaning metadata Dataframes'''
 
     @staticmethod
-    def clean_metadata(df: pd.DataFrame):
+    def clean_metadata(df: pd.DataFrame) -> pd.DataFrame:
+        '''Perform all metadata cleaning operations'''
         df = df.copy() # Avoid modifying original
+        df = MetaDataCleaner.replace_with_nan(df) # Replace placeholder values with np.nan
+
+        # More cleaning steps here
+
+        return df
+    
+    def replace_with_nan(df: pd.DataFrame) -> pd.DataFrame:
+        '''Replace placeholders with NaN'''
+        return df.replace(["","?","-"],np.nan)
 
 class MoveDataCleaner:
     '''Utility class for cleaning movedata lists'''
