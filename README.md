@@ -62,16 +62,16 @@ Example contents:
 * `Hikaru.pgn`
     * Platform: kaggle.com
     * Creator: Michal Wierzbicki
-    * Dataset: Hikaru Nakamura Chess.com Data - https://www.kaggle.com/datasets/michalwierzbicki/hikaru-nakamura-chesscom-online-chess-games/data?select=Hikaru.pgn
+    * Dataset: [Hikaru Nakamura Chess.com Data](https://www.kaggle.com/datasets/michalwierzbicki/hikaru-nakamura-chesscom-online-chess-games/data?select=Hikaru.pgn)
 * `lichess_sample.pgn`
     * Platform: liches.org
     * Creator: Lichess Community
-    * Dataset: Standard game sample - https://database.lichess.org/#standard_games
+    * Dataset: [Standard game sample](https://database.lichess.org/#standard_games)
 * `chess.com_sample.pgn`
     * Platform: kaggle.com
     * Creator: Michal Wierzbicki
-    * Dataset: Hikaru Nakamura Chess.com Data - https://www.kaggle.com/datasets/michalwierzbicki/hikaru-nakamura-chesscom-online-chess-games/data?select=Hikaru.pgn
+    * Dataset: [Hikaru Nakamura Chess.com Data](https://www.kaggle.com/datasets/michalwierzbicki/hikaru-nakamura-chesscom-online-chess-games/data?select=Hikaru.pgn)
 * `pgn_mentor_sample.pgn`
     * Platform: pgnmentor.com
     * Creator: 64 Squares
-    * Dataset: Latvian-Elephant Opening - https://www.pgnmentor.com/files.html
+    * Dataset: [Latvian-Elephant Opening](https://www.pgnmentor.com/files.html)
