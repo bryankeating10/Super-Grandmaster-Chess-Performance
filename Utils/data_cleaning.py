@@ -26,7 +26,7 @@ class MetaDataCleaner:
 
     @staticmethod
     def convert_to_datetime(df: pd.DataFrame) -> pd.DataFrame:
-        """Convert date and time columns to datetime objects safely. Unparseable values become NaN."""
+        """Convert date and time columns to datetime/Timedelta objects safely."""
         date_columns = ["Date", "UTCDate", "EndDate"]
         time_columns = ["UTCTime", "StartTime", "EndTime"]
         df = df.copy()
@@ -36,12 +36,13 @@ class MetaDataCleaner:
             if date_col in df.columns:
                 df[date_col] = pd.to_datetime(df[date_col], errors="coerce", format="%Y.%m.%d")
 
-        # Convert time columns
+        # Convert time columns to Timedelta (efficient, numeric)
         for time_col in time_columns:
             if time_col in df.columns:
-                df[time_col] = pd.to_datetime(df[time_col], errors="coerce", format="%H:%M:%S").dt.time
+                df[time_col] = pd.to_timedelta(df[time_col], errors="coerce")
 
         return df
+
 
     @staticmethod
     def replace_with_nan(df: pd.DataFrame) -> pd.DataFrame:
