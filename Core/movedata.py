@@ -1,5 +1,6 @@
 import chess.pgn as ch
 import pandas as pd
+import numpy as np
 import re
 
 class MoveData:
@@ -75,9 +76,9 @@ class MoveData:
                 "white_move": white_move,
                 "white_time": white_time,
                 "white_eval": white_eval,
-                "black_move": None,
-                "black_time": None,
-                "black_eval": None,
+                "black_move": np.nan,
+                "black_time": np.nan,
+                "black_eval": np.nan,
             })
 
         df = pd.DataFrame(moves)
