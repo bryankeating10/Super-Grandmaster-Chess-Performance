@@ -5,8 +5,8 @@ import pandas as pd
 class MetaData:
     def __init__(self, pgn_path: str):
         self.pgn_path = pgn_path # Path to pgn file
-        self.metadata_list = [] # 
-        self._extract_metadata()
+        self.metadata_list = [] # To store game metadata dictionaries 
+        self._extract_metadata() # Extracts metadata from pgn
 
     def _extract_metadata(self):
         """Read the PGN file and extract metadata for all games."""
@@ -24,12 +24,7 @@ class MetaData:
 
     def to_dataframe(self):
         """Return a DataFrame of all game metadata."""
-        df = pd.DataFrame(self.metadata_list)
+        df = pd.DataFrame(self.metadata_list) # Converts metadata list to dataframe
         if "Game_ID" in df.columns:
-            df.set_index("Game_ID", inplace=True)
+            df.set_index("Game_ID", inplace=True) # Sets game ID as index
         return df
-
-    def to_csv(self, output_path: str):
-        """Export the metadata to a CSV file."""
-        df = self.to_dataframe()
-        df.to_csv(output_path, index=True)
