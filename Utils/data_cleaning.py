@@ -22,22 +22,22 @@ class MetaDataCleaner:
         cleaned = df.replace(["", "?", "-"], np.nan)
         cleaned = cleaned.infer_objects(copy=False)
         return cleaned
-    
+
     @staticmethod
     def convert_to_datetime(df: pd.DataFrame) -> pd.DataFrame:
-        """Convert date and time columns to datetime objects safely."""
+        """Convert date and time columns to datetime objects safely. Unparseable values become NaN."""
         date_columns = ["Date", "UTCDate", "EndDate"]
         time_columns = ["UTCTime", "StartTime", "EndTime"]
         df = df.copy()
 
-        # Combine and convert date+time columns where appropriate
+        # Convert date columns
         for date_col in date_columns:
             if date_col in df.columns:
                 df[date_col] = pd.to_datetime(df[date_col], errors="coerce", format="%Y.%m.%d")
 
+        # Convert time columns
         for time_col in time_columns:
             if time_col in df.columns:
-                # Normalize times that might be missing seconds or include decimals
                 df[time_col] = pd.to_datetime(df[time_col], errors="coerce", format="%H:%M:%S").dt.time
 
         return df
