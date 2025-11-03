@@ -10,8 +10,10 @@ class MetaData:
 
     def _extract_metadata(self):
         """Read the PGN file and extract metadata for all games."""
+
         with open(self.pgn_path) as pgn:
             game_id = 1 # Index of first game
+
             while True:
                 game = ch.read_game(pgn) # Read next game from file
                 if game is None: # End of file
@@ -25,6 +27,8 @@ class MetaData:
     def to_dataframe(self):
         """Return a DataFrame of all game metadata."""
         df = pd.DataFrame(self.metadata_list) # Converts metadata list to dataframe
+
         if "Game_ID" in df.columns:
             df.set_index("Game_ID", inplace=True) # Sets game ID as index
+            
         return df
