@@ -4,23 +4,23 @@ import pandas as pd
 
 class MetaData:
     def __init__(self, pgn_path: str):
-        self.pgn_path = pgn_path
-        self.metadata_list = []
+        self.pgn_path = pgn_path # Path to pgn file
+        self.metadata_list = [] # 
         self._extract_metadata()
 
     def _extract_metadata(self):
         """Read the PGN file and extract metadata for all games."""
         with open(self.pgn_path) as pgn:
-            game_id = 1
+            game_id = 1 # Index of first game
             while True:
-                game = ch.read_game(pgn)
-                if game is None:
+                game = ch.read_game(pgn) # Read next game from file
+                if game is None: # End of file
                     break
 
-                headers = dict(game.headers)
-                headers["Game_ID"] = game_id
-                self.metadata_list.append(headers)
-                game_id += 1
+                headers = dict(game.headers) # Extract metadata categories
+                headers["Game_ID"] = game_id # Add a game ID category
+                self.metadata_list.append(headers) # List of all game metadata
+                game_id += 1 # Next game index
 
     def to_dataframe(self):
         """Return a DataFrame of all game metadata."""
