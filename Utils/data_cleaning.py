@@ -12,7 +12,7 @@ class MetaDataCleaner:
     def clean_metadata(df: pd.DataFrame) -> pd.DataFrame:
         """Perform all metadata cleaning steps."""
         df = MetaDataCleaner.replace_with_nan(df)
-        df = MetaDataCleaner.optimize_dtypes(df)
+        df = MetaDataCleaner.optimize_dtype(df)
         df = MetaDataCleaner.convert_to_datetime(df)
         # More cleaning steps can be added here later
         return df
