@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy as np
 
+# Opt in to Pandas’ future behavior (no warnings about downcasting)
+pd.set_option('future.no_silent_downcasting', True)
+
+
 class MetaDataCleaner:
     """Utility class for cleaning metadata DataFrames."""
 
@@ -8,14 +12,13 @@ class MetaDataCleaner:
     def clean_metadata(df: pd.DataFrame) -> pd.DataFrame:
         """Perform all metadata cleaning steps."""
         df = MetaDataCleaner.replace_with_nan(df)
+        # More cleaning steps can be added here later
         return df
-    
+
     @staticmethod
     def replace_with_nan(df: pd.DataFrame) -> pd.DataFrame:
-        """Replace placeholders with NaN, safely handling dtype conversion."""
-        # Perform replacement and explicitly re-infer data types
+        """Replace placeholders with NaN and safely re-infer data types."""
         cleaned = df.replace(["", "?", "-"], np.nan)
-        # Explicitly trigger Pandas to handle downcasting safely
         cleaned = cleaned.infer_objects(copy=False)
         return cleaned
 
